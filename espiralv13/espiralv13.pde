@@ -15,7 +15,7 @@ int recursiveLevel = 3; //espirals d'espirals d'espirals... En aquest cas, any(0
 int [][] structure;
 float [] data;
 int firstDrawn, lastDrawn;
-float zoomV = 1.0;
+float zoomV = 1.5;
 boolean test=false;
 float progress=0.0;
 float toReset=1.0;
@@ -24,8 +24,8 @@ float direction=1;
 int itemSelected=50;
 
 void setup(){
-  size(800,800,P3D);
-  frameRate=50; 
+  size(1200,800,P3D);
+  frameRate=30; 
   ortho(); 
   prepareScreenStructure();
   prepareDataStructure();
@@ -99,7 +99,7 @@ void draw(){
   float thetaY = 2.0*mouseX/width*PI;
   float thetaX = 2.0*mouseY/height*PI;
   float thetaZ = 0;
-  background(255);
+  background(0);
   drawGUI();
   stroke(0);
   strokeWeight(0.5);
@@ -138,7 +138,7 @@ void navigation(){
       rhoY = 0.0;
       tx = 0;
       ty = 0;
-      zoomV = 1.0;
+      zoomV = 1.5;
       reset = false;
     } else {
       tr = (1+cos(PI*toReset))/2;
@@ -189,8 +189,8 @@ void escenaFromScratch(){
   translate(0,0,-years*radius);
   pushMatrix();
   if (test){
-    firstDrawn=itemSelected;
-    lastDrawn=itemSelected;
+  //  firstDrawn=itemSelected;
+  //  lastDrawn=itemSelected;
   } else {
     firstDrawn=(int)(MAXPOINTS*vFirst);
     lastDrawn=(int)(MAXPOINTS*vLast);
@@ -248,17 +248,14 @@ void drawSpiralPoint(int n,int level, float theta, float radius, float datum){
 void drawItem(int n,float radius, float datum){
   pushMatrix();
   rotateX(PI/2);
+  noStroke();
   if (n<firstDrawn || n>lastDrawn){
     //max ta: 33, min ta: 4 - slope: 29
     fill(datum*255/29-(4)*255/29,0,-datum*255/26+255*33/29,15); 
-    noStroke();
-    //stroke(0,15);
-    rect(-radius/8.0,-radius/16.0,radius/1.0,radius/8.0);
   } else {
-    fill(datum*255/29-(4)*255/29,0,-datum*255/26+255*33/29); 
-    noStroke();
-    //stroke(0);
-    rect(-radius/8.0,-radius/16.0,radius/1.0,radius/8.0);
+    fill(datum*255/29-(4)*255/29,0,-datum*255/26+255*33/29,90);  
+  }
+     box(2,2,2);//rect(-radius/8.0,-radius/16.0,radius/1.0,radius/8.0);
     pushMatrix();
     scale(0.125);
     textAlign(LEFT,BASELINE);
@@ -266,6 +263,5 @@ void drawItem(int n,float radius, float datum){
     // escala 8x, per aconseguir millor definició de typeface
     //text(str(datum),radius*8.00,-2*radius,8*radius,4.0*radius);
     popMatrix();    
-  }
   popMatrix();
 }
